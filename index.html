@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="theme-color" content="#1e3a8a" />
+  <title>EduAssistent Mobile Demo</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app">
+    <section class="hero">
+      <div class="badge">DEMO • Mobile Version</div>
+      <h1>EduAssistent</h1>
+      <p>KI-Assistent für Lehrkräfte: Unterricht, Förderplanung und pädagogische Dokumentation.</p>
+    </section>
+
+    <section class="cards">
+      <button class="card" onclick="openModule('Unterrichtsplanung')">
+        <span>📘</span><b>Unterrichtsplanung</b><small>Lernziele, Ablauf, Methoden</small>
+      </button>
+      <button class="card" onclick="openModule('Arbeitsblatt')">
+        <span>📝</span><b>Arbeitsblatt</b><small>Aufgaben, Differenzierung</small>
+      </button>
+      <button class="card" onclick="openModule('Quiz')">
+        <span>✅</span><b>Quiz</b><small>Fragen, Lösungen, Feedback</small>
+      </button>
+      <button class="card" onclick="openModule('Förderplan / IPET')">
+        <span>🧩</span><b>Förderplan</b><small>SEN, Anpassungen, Ziele</small>
+      </button>
+    </section>
+
+    <section class="panel">
+      <h2 id="moduleTitle">Schnellgenerator</h2>
+      <label>Thema / Schülerprofil</label>
+      <textarea id="topic" placeholder="z. B. Künstliche Intelligenz im Unterricht, Klasse 9"></textarea>
+      <label>Klasse / Zielgruppe</label>
+      <input id="grade" placeholder="z. B. Klasse 9, Gymnasium" />
+      <button class="primary" onclick="generateDemo()">Demo generieren</button>
+    </section>
+
+    <section class="result" id="result">
+      <h2>Ergebnis</h2>
+      <p>Wählen Sie ein Modul und starten Sie den Demo-Generator.</p>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
