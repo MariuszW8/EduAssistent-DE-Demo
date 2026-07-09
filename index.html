@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#06142e">
-<title>EduAssistent Conference Edition 4.1</title>
+<title>EduAssistent Conference Edition 4.2</title>
 <link rel="manifest" href="manifest.json">
 <link rel="stylesheet" href="styles.css">
 </head>
@@ -13,7 +13,7 @@
 <header class="top">
   <div class="brand">
     <div class="mark"><span>EA</span></div>
-    <div><b>EduAssistent</b><small>Conference Edition 4.1 • Gemini Live</small></div>
+    <div><b>EduAssistent</b><small>Conference Edition 4.2 • Gemini Live</small></div>
   </div>
   <button onclick="show('qr')">QR</button>
 </header>
@@ -46,10 +46,27 @@
 
 <section class="screen" id="chat">
   <h2>Virtuelle Demo</h2>
-  <p class="muted">Produktpräsentation mit echter Gemini-Flash-Generierung über Vercel API.</p>
+  <p class="muted">Produktpräsentation mit echter Gemini-Flash-Generierung über Vercel API. Zusätzlich: EduChat Live mit maximal 3 Fragen.</p>
   <div class="chatbox" id="chatbox"></div>
   <button class="primary" onclick="startChat()">Demo-Gespräch abspielen</button>
   <button class="secondary" onclick="show('roles')">Module öffnen</button>
+
+  <div class="educhat">
+    <div class="educhat-head">
+      <div>
+        <h3>EduChat Live</h3>
+        <p class="muted">Zadaj maksymalnie 3 pytania do Gemini. Dobre do krótkiej demonstracji na konferencji.</p>
+      </div>
+      <span id="chatCounter">0/3</span>
+    </div>
+    <div class="livechatbox" id="livechatbox">
+      <div class="msg ai">Napisz pytanie, np. „Jak wykorzystać AI odpowiedzialnie w klasie 9?”</div>
+    </div>
+    <textarea id="chatQuestion" placeholder="Wpisz pytanie do EduAssistenta..."></textarea>
+    <button class="primary" id="askBtn" onclick="askEduChat()">Zapytaj Gemini</button>
+    <button class="secondary" onclick="resetEduChat()">Wyczyść chat</button>
+  </div>
+
 </section>
 
 <section class="screen" id="roles">

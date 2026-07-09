@@ -11,7 +11,7 @@ export default async function handler(req, res) {
       });
     }
 
-    const { role, module, topic, group } = req.body || {};
+    const { role, module, topic, group, mode, question } = req.body || {};
     const safeRole = role || 'Lehrkraft';
     const safeModule = module || 'Unterrichtsplanung';
     const safeTopic = topic || 'Künstliche Intelligenz verantwortungsvoll im Unterricht nutzen';
@@ -19,7 +19,15 @@ export default async function handler(req, res) {
 
     const systemPrompt = `Du bist EduAssistent, ein professioneller KI-Assistent für Bildung. Antworte auf Deutsch, klar, schulpraktisch, strukturiert und datenschutzbewusst. Erstelle keine medizinischen Diagnosen. Bei Förderplan/IPET formuliere pädagogische Unterstützung, Ziele, Maßnahmen und Monitoring.`;
 
-    const userPrompt = `
+    const userPrompt = mode === 'chat'
+      ? `
+Rolle: ${safeRole}
+Modus: EduChat Live, kurze konferencyjne Q&A
+Pytanie użytkownika: ${question || safeTopic}
+Odbiorcy: ${safeGroup}
+
+Odpowiedz po polsku, konkretnie i praktycznie. Maksymalnie 1200 znaków. Nie udawaj, że masz dostęp do danych osobowych lub dokumentów, jeżeli nie zostały podane. Zakończ jedną praktyczną sugestią.`
+      : `
 Rolle: ${safeRole}
 Modul: ${safeModule}
 Thema/Fall/Situation: ${safeTopic}
@@ -50,7 +58,7 @@ Schreibe konkret, nicht allgemein. Verwende Zwischenüberschriften und Listen.`;
         generationConfig: {
           temperature: 0.45,
           topP: 0.9,
-          maxOutputTokens: 1800
+          maxOutputTokens: mode === 'chat' ? 900 : 1800
         }
       })
     });

@@ -22,7 +22,7 @@ function startChat() {
   const box = document.getElementById("chatbox");
   box.innerHTML = "";
   const msgs = [
-    ["ai", "Guten Tag. Ich bin EduAssistent 4.1 mit Gemini Live. Welche pädagogische Aufgabe möchten Sie vorbereiten?"],
+    ["ai", "Guten Tag. Ich bin EduAssistent 4.2 mit Gemini Live und EduChat 3Q. Welche pädagogische Aufgabe möchten Sie vorbereiten?"],
     ["user", "Ich möchte eine Unterrichtsstunde zu KI in Klasse 9 zeigen."],
     ["ai", "Ich kann Lernziele, Ablauf, Materialien, Quiz und Reflexion live generieren."],
     ["user", "Bitte mit verantwortungsvoller KI-Nutzung."],
@@ -118,4 +118,88 @@ function fallbackResult(topic, group) {
 
 function toast(t) {
   alert(t);
+}
+
+// EduAssistent 4.2 — EduChat Live, limit 3 pytań
+let eduChatCount = 0;
+const EDUCHAT_LIMIT = 3;
+
+function addLiveChatMessage(type, text) {
+  const box = document.getElementById("livechatbox");
+  const d = document.createElement("div");
+  d.className = "msg " + type;
+  d.textContent = text;
+  box.appendChild(d);
+  box.scrollTop = box.scrollHeight;
+}
+
+function updateChatCounter() {
+  const counter = document.getElementById("chatCounter");
+  const btn = document.getElementById("askBtn");
+  if (counter) counter.textContent = `${eduChatCount}/${EDUCHAT_LIMIT}`;
+  if (btn && eduChatCount >= EDUCHAT_LIMIT) {
+    btn.disabled = true;
+    btn.textContent = "Limit 3 pytań wykorzystany";
+  } else if (btn) {
+    btn.disabled = false;
+    btn.textContent = "Zapytaj Gemini";
+  }
+}
+
+async function askEduChat() {
+  const input = document.getElementById("chatQuestion");
+  const question = input.value.trim();
+
+  if (!question) {
+    toast("Wpisz pytanie do EduAssistenta.");
+    return;
+  }
+
+  if (eduChatCount >= EDUCHAT_LIMIT) {
+    addLiveChatMessage("ai", "Limit pytań w wersji konferencyjnej został wykorzystany. Otwórz moduły, aby kontynuować demonstrację.");
+    updateChatCounter();
+    return;
+  }
+
+  eduChatCount += 1;
+  updateChatCounter();
+  addLiveChatMessage("user", question);
+  input.value = "";
+  addLiveChatMessage("ai", "Gemini Flash przygotowuje odpowiedź...");
+
+  try {
+    const response = await fetch("/api/gemini", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        mode: "chat",
+        role: "EduChat Live",
+        module: "Krótka odpowiedź konferencyjna",
+        topic: question,
+        group: "uczestnicy konferencji edukacyjnej",
+        question
+      })
+    });
+
+    const data = await response.json();
+    const box = document.getElementById("livechatbox");
+    const last = box.lastElementChild;
+    if (!response.ok) throw new Error(data.error || "Błąd API");
+    if (last && last.textContent.includes("Gemini Flash")) last.remove();
+    addLiveChatMessage("ai", data.text);
+  } catch (error) {
+    const box = document.getElementById("livechatbox");
+    const last = box.lastElementChild;
+    if (last && last.textContent.includes("Gemini Flash")) last.remove();
+    addLiveChatMessage("ai", "Nie udało się połączyć z Gemini. Sprawdź GEMINI_API_KEY oraz logi Vercel. Komunikat: " + error.message);
+  }
+}
+
+function resetEduChat() {
+  eduChatCount = 0;
+  const box = document.getElementById("livechatbox");
+  box.innerHTML = '<div class="msg ai">Chat został wyczyszczony. Możesz zadać ponownie maksymalnie 3 pytania.</div>';
+  const input = document.getElementById("chatQuestion");
+  if (input) input.value = "";
+  updateChatCounter();
 }
