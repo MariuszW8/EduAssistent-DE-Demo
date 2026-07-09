@@ -3,100 +3,132 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#0f172a">
-<title>EduAssistent Conference Edition 2.0</title>
+<meta name="theme-color" content="#06142e">
+<title>EduAssistent Conference Edition 3.0</title>
 <link rel="manifest" href="manifest.json">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="phone">
-<header class="topbar">
-  <div class="logo">EA</div>
-  <div><strong>EduAssistent</strong><small>Conference Edition 2.0 • DE</small></div>
-  <button class="ghost" onclick="showScreen('about')">Info</button>
+<div class="app">
+<header class="top">
+  <div class="brand">
+    <div class="mark"><span>EA</span></div>
+    <div><b>EduAssistent</b><small>Conference Edition 3.0 • DE</small></div>
+  </div>
+  <button onclick="show('qr')">QR</button>
 </header>
 
 <section class="screen active" id="home">
   <div class="hero">
-    <div class="pill">KI-gestützte Bildungsassistenz</div>
-    <h1>Willkommen bei EduAssistent</h1>
-    <p>Ein mobiler Demonstrator für Unterricht, Förderplanung, Dokumentation und pädagogische Entscheidungen.</p>
-    <button class="primary" onclick="showScreen('roles')">Demo starten</button>
+    <div class="tag">KI • Schule • Dokumentation • Unterricht</div>
+    <h1>AI for Education — nicht als Ersatz, sondern als Verstärkung.</h1>
+    <p>EduAssistent zeigt, wie Lehrkräfte, Schulleitungen und sonderpädagogische Teams mit Agenten, RAG und strukturierten Dokumenten arbeiten können.</p>
+    <button class="primary" onclick="show('chat')">Live-Demo starten</button>
+    <button class="secondary" onclick="show('flow')">Architektur ansehen</button>
   </div>
-  <div class="agent-map">
-    <div class="center">LangGraph<br><b>Supervisor</b></div>
-    <span style="--i:0">Didaktik</span><span style="--i:1">Sonderpädagogik</span>
-    <span style="--i:2">Recht</span><span style="--i:3">Analyse</span>
+
+  <div class="stats">
+    <div><b>4</b><small>Rollen</small></div>
+    <div><b>7</b><small>Agenten</small></div>
+    <div><b>RAG</b><small>Wissensbasis</small></div>
+    <div><b>DOCX</b><small>Export</small></div>
   </div>
-  <div class="mini-grid">
-    <div><b>RAG</b><small>Schulwissen & Quellen</small></div>
-    <div><b>JSON</b><small>strukturierte Ergebnisse</small></div>
-    <div><b>Export</b><small>DOCX / PDF / HTML</small></div>
+
+  <div class="orbit">
+    <div class="core"><b>LangGraph</b><small>Supervisor</small></div>
+    <i style="--n:0">Didaktik</i>
+    <i style="--n:1">SPE</i>
+    <i style="--n:2">Recht</i>
+    <i style="--n:3">Analyse</i>
+    <i style="--n:4">Report</i>
   </div>
 </section>
 
+<section class="screen" id="chat">
+  <h2>Virtuelle Demo</h2>
+  <p class="muted">Eine simulierte Produktpräsentation im Stil einer echten mobilen KI-App.</p>
+  <div class="chatbox" id="chatbox"></div>
+  <button class="primary" onclick="startChat()">Demo-Gespräch abspielen</button>
+  <button class="secondary" onclick="show('roles')">Module öffnen</button>
+</section>
+
 <section class="screen" id="roles">
-  <h2>Rolle auswählen</h2>
-  <p class="muted">Die Demo passt die Beispiele an die pädagogische Rolle an.</p>
-  <div class="cards">
-    <button onclick="selectRole('Lehrkraft')">👩‍🏫<b>Lehrkraft</b><small>Unterricht, Quiz, Materialien</small></button>
-    <button onclick="selectRole('Schulleitung')">🏫<b>Schulleitung</b><small>Berichte, Evaluation, Konzepte</small></button>
-    <button onclick="selectRole('Sonderpädagogik')">🧩<b>Sonderpädagogik</b><small>Förderplan, Anpassungen, Elterninfo</small></button>
+  <h2>Rolle wählen</h2>
+  <div class="roles">
+    <button onclick="choose('Lehrkraft')">👩‍🏫<b>Lehrkraft</b><small>Unterricht, Quiz, Arbeitsblatt</small></button>
+    <button onclick="choose('Schulleitung')">🏫<b>Schulleitung</b><small>Evaluation, Konzept, Bericht</small></button>
+    <button onclick="choose('Sonderpädagogik')">🧩<b>Sonderpädagogik</b><small>Förderplan, Anpassungen, Elterninfo</small></button>
+    <button onclick="choose('JST / Verwaltung')">🏛️<b>JST / Verwaltung</b><small>Analysen und strategische Berichte</small></button>
   </div>
 </section>
 
 <section class="screen" id="modules">
-  <h2 id="roleTitle">Module</h2>
-  <p class="muted">Wählen Sie einen Demonstrationsbereich.</p>
-  <div class="module-list">
-    <button onclick="selectModule('Unterrichtsplanung')">📘 <span><b>Unterrichtsplanung</b><small>Lernziele, Ablauf, Methoden, Reflexion</small></span></button>
-    <button onclick="selectModule('Quiz')">✅ <span><b>Quiz</b><small>Fragen, Lösungen, Feedback</small></span></button>
-    <button onclick="selectModule('Förderplan')">🧩 <span><b>Förderplan / IPET</b><small>Ziele, Anpassungen, Monitoring</small></span></button>
-    <button onclick="selectModule('Elterninformation')">🤝 <span><b>Elterninformation</b><small>verständliche pädagogische Rückmeldung</small></span></button>
+  <h2 id="roleHeadline">Module</h2>
+  <div class="modules">
+    <button onclick="moduleDemo('Unterrichtsplanung')">📘<span><b>Unterrichtsplanung</b><small>kompetenzorientierter Ablauf</small></span></button>
+    <button onclick="moduleDemo('Quiz')">✅<span><b>Quiz</b><small>Fragen, Lösungen, Feedback</small></span></button>
+    <button onclick="moduleDemo('Förderplan / IPET')">🧩<span><b>Förderplan / IPET</b><small>Ziele, Maßnahmen, Monitoring</small></span></button>
+    <button onclick="moduleDemo('Elterninformation')">🤝<span><b>Elterninformation</b><small>klar, freundlich, professionell</small></span></button>
+    <button onclick="moduleDemo('Bericht')">📊<span><b>Bericht</b><small>Evaluation, Wnioski, Empfehlungen</small></span></button>
   </div>
 </section>
 
 <section class="screen" id="generator">
-  <h2 id="moduleTitle">Generator</h2>
-  <label>Thema / Situation</label>
-  <textarea id="topic">Künstliche Intelligenz im Unterricht verantwortungsvoll nutzen</textarea>
+  <h2 id="moduleHeadline">Generator</h2>
+  <label>Thema / Fall / Situation</label>
+  <textarea id="topic">Künstliche Intelligenz verantwortungsvoll im Unterricht nutzen</textarea>
   <label>Zielgruppe</label>
   <input id="group" value="Klasse 9, Gymnasium">
-  <button class="primary" onclick="runAgents()">Demo mit KI starten</button>
-  <div class="back" onclick="showScreen('modules')">← Zurück zu Modulen</div>
+  <button class="primary" onclick="run()">Agenten starten</button>
 </section>
 
 <section class="screen" id="working">
-  <h2>EduAssistent arbeitet...</h2>
-  <div class="steps">
-    <div class="step" id="s1">1. Kontext aus der Wissensbasis abrufen</div>
-    <div class="step" id="s2">2. Agenten koordinieren</div>
-    <div class="step" id="s3">3. Ergebnis strukturieren</div>
-    <div class="step" id="s4">4. Dokument vorbereiten</div>
+  <h2>Agenten arbeiten...</h2>
+  <div class="pipeline">
+    <div id="p1">Formular</div><div id="p2">RAG</div><div id="p3">Agenten</div><div id="p4">JSON</div><div id="p5">Export</div>
   </div>
-  <div class="loader"></div>
+  <div class="terminal" id="terminal"></div>
 </section>
 
 <section class="screen" id="result">
-  <h2>Demo-Ergebnis</h2>
-  <div id="resultBox" class="resultBox"></div>
-  <div class="actions"><button onclick="fakeExport('DOCX')">DOCX</button><button onclick="fakeExport('PDF')">PDF</button><button onclick="fakeExport('HTML')">HTML</button></div>
-  <button class="primary" onclick="showScreen('modules')">Weiteres Modul testen</button>
-</section>
-
-<section class="screen" id="about">
-  <h2>Wie arbeitet EduAssistent?</h2>
-  <div class="timeline">
-    <p><b>1. Formular</b><br>Daten werden strukturiert erfasst.</p>
-    <p><b>2. RAG</b><br>Relevante Dokumente und Schulquellen werden eingebunden.</p>
-    <p><b>3. Agenten</b><br>LangGraph koordiniert spezialisierte Agenten.</p>
-    <p><b>4. JSON</b><br>Das Ergebnis wird validiert und strukturiert.</p>
-    <p><b>5. Export</b><br>HTML, DOCX, PDF oder Präsentation.</p>
+  <h2>Ergebnis</h2>
+  <div class="doc" id="doc"></div>
+  <div class="export">
+    <button onclick="toast('DOCX-Export wird in der Enterprise-Version erzeugt.')">DOCX</button>
+    <button onclick="toast('PDF-Vorschau wird in der Enterprise-Version erzeugt.')">PDF</button>
+    <button onclick="toast('HTML-Export wird in der Enterprise-Version erzeugt.')">HTML</button>
   </div>
-  <button class="primary" onclick="showScreen('home')">Zur Startseite</button>
+  <button class="primary" onclick="show('modules')">Nächstes Modul testen</button>
 </section>
 
-<nav class="nav"><button onclick="showScreen('home')">Start</button><button onclick="showScreen('roles')">Rollen</button><button onclick="showScreen('about')">Ablauf</button></nav>
+<section class="screen" id="flow">
+  <h2>Enterprise-Architektur</h2>
+  <div class="flow">
+    <div>Formular</div><span>→</span><div>RAG</div><span>→</span><div>LangGraph</div><span>→</span><div>LLM</div><span>→</span><div>JSON</div><span>→</span><div>DOCX / PDF</div>
+  </div>
+  <div class="why">
+    <h3>Warum EduAssistent?</h3>
+    <ul>
+      <li>Dokumente entstehen aus strukturierten Formularen, nicht aus freien Zufallsprompts.</li>
+      <li>Fachwissen kann aus einer eigenen Wissensbasis eingebunden werden.</li>
+      <li>Agenten prüfen Perspektiven: Didaktik, Recht, Sonderpädagogik, Evaluation.</li>
+      <li>Ergebnisse sind für Schule und Verwaltung exportierbar.</li>
+    </ul>
+  </div>
+</section>
+
+<section class="screen" id="qr">
+  <h2>Demo auf dem Smartphone</h2>
+  <p class="muted">QR-Code zur öffentlichen GitHub-Pages-Version.</p>
+  <div class="qrwrap"><img src="qr-eduassistent-demo.png" alt="QR Code"><b>mariuszw8.github.io/EduAssistent-DE-Demo</b></div>
+</section>
+
+<nav>
+  <button onclick="show('home')">Start</button>
+  <button onclick="show('chat')">Chat</button>
+  <button onclick="show('roles')">Module</button>
+  <button onclick="show('flow')">Architektur</button>
+</nav>
 </div>
 <script src="app.js"></script>
 </body>

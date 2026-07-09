@@ -1,5 +1,3 @@
-# EduAssistent Mobile Conference Edition 2.0 (DE)
+# EduAssistent Conference Edition 3.0 (DE)
 
-Profesjonalna, statyczna niemiecka wersja demo na GitHub Pages.
-
-Wgraj pliki do repozytorium `EduAssistent-DE-Demo` i zatwierdź `Commit changes`.
+Wersja mobilna premium na konferencję. Wgraj wszystkie pliki do repozytorium GitHub Pages i zatwierdź Commit changes.
