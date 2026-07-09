@@ -1,0 +1,9 @@
+{
+  "name": "eduassistent-conference-edition-4-1-gemini-live",
+  "version": "4.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "vercel dev"
+  }
+}
