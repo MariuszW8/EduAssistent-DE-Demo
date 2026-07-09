@@ -1,9 +1,9 @@
 {
-  "name": "EduAssistent Mobile Demo",
+  "name": "EduAssistent Conference Edition 2.0",
   "short_name": "EduAssistent",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#f3f6fb",
-  "theme_color": "#1e3a8a",
+  "background_color": "#020617",
+  "theme_color": "#0f172a",
   "icons": []
 }

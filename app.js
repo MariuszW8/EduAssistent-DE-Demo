@@ -1,53 +1,7 @@
-let currentModule = "Schnellgenerator";
-
-function openModule(name){
-  currentModule = name;
-  document.getElementById("moduleTitle").innerText = name;
-  document.getElementById("result").innerHTML =
-    `<h2>${name}</h2><p>Modul ausgewählt. Geben Sie Thema und Zielgruppe ein.</p>`;
-}
-
-function generateDemo(){
-  const topic = document.getElementById("topic").value || "Künstliche Intelligenz im Unterricht";
-  const grade = document.getElementById("grade").value || "Klasse 9";
-
-  const templates = {
-    "Unterrichtsplanung": [
-      "Lernziel: Die Schülerinnen und Schüler erklären zentrale Begriffe und Chancen der KI.",
-      "Einstieg: kurzes Beispiel aus dem Alltag der Lernenden.",
-      "Arbeitsphase: Analyse eines KI-generierten Textes in Gruppen.",
-      "Sicherung: gemeinsame Kriterien für verantwortungsvolle Nutzung.",
-      "Reflexion: Was kann KI unterstützen, was muss der Mensch entscheiden?"
-    ],
-    "Arbeitsblatt": [
-      "Aufgabe 1: Beschreibe mit eigenen Worten, was KI ist.",
-      "Aufgabe 2: Nenne drei Beispiele aus Schule und Alltag.",
-      "Aufgabe 3: Markiere Chancen und Risiken in einer Tabelle.",
-      "Aufgabe 4: Formuliere eine Regel für faire KI-Nutzung.",
-      "Zusatz: Entwickle eine Mini-Checkliste für Mitschülerinnen und Mitschüler."
-    ],
-    "Quiz": [
-      "1. Was bedeutet KI? Antwort: Künstliche Intelligenz.",
-      "2. Kann KI immer richtige Antworten geben? Antwort: Nein.",
-      "3. Warum ist Quellenprüfung wichtig? Antwort: Wegen möglicher Fehler.",
-      "4. Wer trägt Verantwortung für die Nutzung? Antwort: Der Mensch.",
-      "5. Nenne ein sinnvolles Einsatzfeld im Unterricht."
-    ],
-    "Förderplan / IPET": [
-      "Stärken: Interesse an digitalen Werkzeugen und visuellem Lernen.",
-      "Unterstützungsbedarf: klare Struktur, kurze Arbeitsaufträge, Zwischenfeedback.",
-      "Ziel: selbstständige Bearbeitung einer Aufgabe in drei Schritten.",
-      "Anpassungen: vereinfachte Sprache, Beispielaufgaben, Zeitverlängerung.",
-      "Evaluation: Beobachtung, Lernprodukt, kurzes Reflexionsgespräch."
-    ]
-  };
-
-  const items = templates[currentModule] || templates["Unterrichtsplanung"];
-
-  document.getElementById("result").innerHTML = `
-    <h2>${currentModule}</h2>
-    <p><b>Thema:</b> ${topic}<br><b>Zielgruppe:</b> ${grade}</p>
-    <ul>${items.map(x => `<li>${x}</li>`).join("")}</ul>
-    <p><b>Hinweis:</b> Dies ist eine statische Demo-Version. In der Enterprise-Version wird hier LangGraph + RAG + LLM angebunden.</p>
-  `;
-}
+let role="Lehrkraft";let moduleName="Unterrichtsplanung";
+function showScreen(id){document.querySelectorAll(".screen").forEach(s=>s.classList.remove("active"));document.getElementById(id).classList.add("active")}
+function selectRole(r){role=r;document.getElementById("roleTitle").innerText="Module für "+r;showScreen("modules")}
+function selectModule(m){moduleName=m;document.getElementById("moduleTitle").innerText=m;showScreen("generator")}
+function runAgents(){showScreen("working");["s1","s2","s3","s4"].forEach(id=>document.getElementById(id).classList.remove("active"));setTimeout(()=>document.getElementById("s1").classList.add("active"),300);setTimeout(()=>document.getElementById("s2").classList.add("active"),1000);setTimeout(()=>document.getElementById("s3").classList.add("active"),1700);setTimeout(()=>document.getElementById("s4").classList.add("active"),2400);setTimeout(showResult,3200)}
+function showResult(){const topic=document.getElementById("topic").value||"KI im Unterricht";const group=document.getElementById("group").value||"Klasse 9";const data={"Unterrichtsplanung":["Kompetenzziel: Lernende erklären Chancen, Grenzen und Verantwortung beim Einsatz von KI.","Einstieg: kurzes Alltagsszenario mit KI-Text oder KI-Bild.","Arbeitsphase: Gruppen analysieren Qualität, Quellen und mögliche Fehler.","Sicherung: gemeinsame Checkliste für verantwortungsvolle KI-Nutzung.","Reflexion: Was darf KI übernehmen – und was bleibt menschliche Aufgabe?"],"Quiz":["Was bedeutet KI? — Künstliche Intelligenz.","Warum muss man KI-Antworten prüfen? — Weil sie Fehler enthalten können.","Nenne ein Risiko. — Datenschutz, Urheberrecht oder falsche Informationen.","Nenne eine Chance. — Unterstützung beim Lernen, Strukturieren oder Üben.","Wer trägt Verantwortung? — Der Mensch, der KI nutzt."],"Förderplan":["Stärken: hohe Motivation bei digitalen Aufgaben und visuellen Materialien.","Unterstützungsbedarf: klare Struktur, kurze Aufträge, Zwischenfeedback.","Ziel: selbstständige Bearbeitung einer Aufgabe in drei Arbeitsschritten.","Anpassungen: vereinfachte Sprache, Beispielaufgabe, zusätzliche Bearbeitungszeit.","Monitoring: Beobachtung, Lernprodukt, kurzes Reflexionsgespräch."],"Elterninformation":["Ihr Kind arbeitet zunehmend sicherer mit digitalen Lernwerkzeugen.","Besonders hilfreich sind klare Arbeitsschritte und kurze Rückmeldungen.","In der Schule werden Aufgaben strukturiert und bei Bedarf angepasst.","Zu Hause können kurze Übungsphasen und gemeinsame Reflexion unterstützen.","Die weitere Entwicklung wird regelmäßig beobachtet und besprochen."]};const items=data[moduleName]||data["Unterrichtsplanung"];document.getElementById("resultBox").innerHTML=`<h3>${moduleName}</h3><p><b>Rolle:</b> ${role}<br><b>Thema:</b> ${topic}<br><b>Zielgruppe:</b> ${group}</p><ul>${items.map(x=>`<li>${x}</li>`).join("")}</ul><p><b>Demo-Hinweis:</b> In der Enterprise-Version wird dieses Ergebnis durch RAG, LangGraph-Agenten, JSON-Validierung und professionelle Export-Renderer erzeugt.</p>`;showScreen("result")}
+function fakeExport(type){alert(type+"-Export: In der Demo simuliert. In der Enterprise-Version wird eine echte Datei erzeugt.")}
