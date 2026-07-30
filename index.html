@@ -29,18 +29,22 @@
 
   <div class="stats">
     <div><b>4</b><small>Rollen</small></div>
-    <div><b>7</b><small>Agenten</small></div>
+    <div><b>9</b><small>Agenten</small></div>
     <div><b>RAG</b><small>Wissensbasis</small></div>
     <div><b>DOCX</b><small>Export</small></div>
   </div>
 
   <div class="orbit">
     <div class="core"><b>LangGraph</b><small>Supervisor</small></div>
-    <i style="--n:0">Didaktik</i>
-    <i style="--n:1">SPE</i>
-    <i style="--n:2">Recht</i>
-    <i style="--n:3">Analyse</i>
-    <i style="--n:4">Report</i>
+    <i style="--n:0">Diagnose</i>
+    <i style="--n:1">Unterricht</i>
+    <i style="--n:2">Material</i>
+    <i style="--n:3">Ethik</i>
+    <i style="--n:4">Bewertung</i>
+    <i style="--n:5">Fachprüfung</i>
+    <i style="--n:6">Sprache</i>
+    <i style="--n:7">Übersetzung</i>
+    <i style="--n:8">Redaktion</i>
   </div>
 </section>
 
@@ -55,16 +59,16 @@
     <div class="educhat-head">
       <div>
         <h3>EduChat Live</h3>
-        <p class="muted">Zadaj maksymalnie 3 pytania do Gemini. Dobre do krótkiej demonstracji na konferencji.</p>
+        <p class="muted">Stellen Sie maximal 3 Fragen an Gemini. Ideal für eine kurze Demonstration auf der Konferenz.</p>
       </div>
       <span id="chatCounter">0/3</span>
     </div>
     <div class="livechatbox" id="livechatbox">
-      <div class="msg ai">Napisz pytanie, np. „Jak wykorzystać AI odpowiedzialnie w klasie 9?”</div>
+      <div class="msg ai">Stellen Sie eine Frage, z. B. „Wie kann man KI verantwortungsvoll in Klasse 9 einsetzen?“</div>
     </div>
-    <textarea id="chatQuestion" placeholder="Wpisz pytanie do EduAssistenta..."></textarea>
+    <textarea id="chatQuestion" placeholder="Frage an EduAssistent eingeben..."></textarea>
     <button class="primary" id="askBtn" onclick="askEduChat()">Zapytaj Gemini</button>
-    <button class="secondary" onclick="resetEduChat()">Wyczyść chat</button>
+    <button class="secondary" onclick="resetEduChat()">Chat leeren</button>
   </div>
 
 </section>

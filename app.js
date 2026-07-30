@@ -69,7 +69,7 @@ async function run() {
 
     const data = await response.json();
     if (!response.ok) {
-      throw new Error(data.error || "Błąd API");
+      throw new Error(data.error || "API-Fehler");
     }
 
     renderResult(data.text, topic, group, true);
@@ -120,7 +120,7 @@ function toast(t) {
   alert(t);
 }
 
-// EduAssistent 4.2 — EduChat Live, limit 3 pytań
+// EduAssistent 4.2 — EduChat Live, Limit 3 Fragen
 let eduChatCount = 0;
 const EDUCHAT_LIMIT = 3;
 
@@ -139,7 +139,7 @@ function updateChatCounter() {
   if (counter) counter.textContent = `${eduChatCount}/${EDUCHAT_LIMIT}`;
   if (btn && eduChatCount >= EDUCHAT_LIMIT) {
     btn.disabled = true;
-    btn.textContent = "Limit 3 pytań wykorzystany";
+    btn.textContent = "Limit von 3 Fragen erreicht";
   } else if (btn) {
     btn.disabled = false;
     btn.textContent = "Zapytaj Gemini";
@@ -151,12 +151,12 @@ async function askEduChat() {
   const question = input.value.trim();
 
   if (!question) {
-    toast("Wpisz pytanie do EduAssistenta.");
+    toast("Geben Sie eine Frage an EduAssistent ein.");
     return;
   }
 
   if (eduChatCount >= EDUCHAT_LIMIT) {
-    addLiveChatMessage("ai", "Limit pytań w wersji konferencyjnej został wykorzystany. Otwórz moduły, aby kontynuować demonstrację.");
+    addLiveChatMessage("ai", "Das Fragenlimit der Konferenzversion ist erreicht. Öffnen Sie die Module, um die Demonstration fortzusetzen.");
     updateChatCounter();
     return;
   }
@@ -165,7 +165,7 @@ async function askEduChat() {
   updateChatCounter();
   addLiveChatMessage("user", question);
   input.value = "";
-  addLiveChatMessage("ai", "Gemini Flash przygotowuje odpowiedź...");
+  addLiveChatMessage("ai", "Gemini Flash bereitet die Antwort vor...");
 
   try {
     const response = await fetch("/api/gemini", {
@@ -174,7 +174,7 @@ async function askEduChat() {
       body: JSON.stringify({
         mode: "chat",
         role: "EduChat Live",
-        module: "Krótka odpowiedź konferencyjna",
+        module: "Kurze Konferenzantwort",
         topic: question,
         group: "uczestnicy konferencji edukacyjnej",
         question
@@ -184,21 +184,21 @@ async function askEduChat() {
     const data = await response.json();
     const box = document.getElementById("livechatbox");
     const last = box.lastElementChild;
-    if (!response.ok) throw new Error(data.error || "Błąd API");
+    if (!response.ok) throw new Error(data.error || "API-Fehler");
     if (last && last.textContent.includes("Gemini Flash")) last.remove();
     addLiveChatMessage("ai", data.text);
   } catch (error) {
     const box = document.getElementById("livechatbox");
     const last = box.lastElementChild;
     if (last && last.textContent.includes("Gemini Flash")) last.remove();
-    addLiveChatMessage("ai", "Nie udało się połączyć z Gemini. Sprawdź GEMINI_API_KEY oraz logi Vercel. Komunikat: " + error.message);
+    addLiveChatMessage("ai", "Verbindung zu Gemini fehlgeschlagen. Prüfen Sie GEMINI_API_KEY und die Vercel-Logs. Meldung: " + error.message);
   }
 }
 
 function resetEduChat() {
   eduChatCount = 0;
   const box = document.getElementById("livechatbox");
-  box.innerHTML = '<div class="msg ai">Chat został wyczyszczony. Możesz zadać ponownie maksymalnie 3 pytania.</div>';
+  box.innerHTML = '<div class="msg ai">Der Chat wurde geleert. Sie können erneut maximal 3 Fragen stellen.</div>';
   const input = document.getElementById("chatQuestion");
   if (input) input.value = "";
   updateChatCounter();
