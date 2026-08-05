@@ -142,7 +142,7 @@ function updateChatCounter() {
     btn.textContent = "Limit von 3 Fragen erreicht";
   } else if (btn) {
     btn.disabled = false;
-    btn.textContent = "Zapytaj Gemini";
+    btn.textContent = "Gemini fragen";
   }
 }
 
